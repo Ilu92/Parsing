@@ -1,0 +1,20 @@
+# bs4 - модуль для парсига,
+# requests - модуль для работы с интернетом
+import bs4, requests
+
+def getpage(cssclass, adres):
+    # requests.get дает html код любой веб страницы
+    s = requests.get(adres).text
+    # создаем экземпляр парсера и парсим им полученный код веб страницы
+    parser=bs4.BeautifulSoup(s, "html.parser")
+    # получаем массив элементов веб страницы с указанным классом через точку как в css
+    massiv = parser.select(cssclass)
+    # проходим по массиву найденных элементов и печатаем их текст и ссылку
+    for x in massiv:
+        # Печатаем текст элемента
+        print(x.getText())
+        # Печатаем аттрибут href найденного элемента (то есть ссылку на статью)
+        print(x.attrs['href'])
+
+# Выбираем определенный хаб
+getpage('.post__title_link','https://habr.com/ru/search/?target_type=posts&order_by=date&q=%5Bpython%5D&flow=develop')
